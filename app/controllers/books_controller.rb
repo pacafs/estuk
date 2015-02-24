@@ -5,8 +5,13 @@ class BooksController < ApplicationController
   respond_to :html
 
   def index
-    @books = Book.where(availability: true)
-    respond_with(@books)
+    if params[:search]
+      @books = Book.search(params[:search],params[:author], params[:min_price], params[:max_price]).available
+    else
+      @books = current_user.books
+    end
+
+      respond_with(@books)
   end
 
   def show
@@ -41,6 +46,7 @@ class BooksController < ApplicationController
   end
 
   private
+
     def set_book
       @book = Book.friendly.find(params[:id])
     end
@@ -49,3 +55,5 @@ class BooksController < ApplicationController
       params.require(:book).permit(:name, :author, :description, :price, :availability, :image, :resource)
     end
 end
+
+

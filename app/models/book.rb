@@ -20,4 +20,22 @@ class Book < ActiveRecord::Base
 
 	validates_numericality_of :price,
 	greater_than: 49, message: "must be at least 50 cents"
+
+	# Search
+
+	def self.search(search, author, min_price, max_price)
+
+		books = all
+
+		books = books.where('name LIKE ?', "%#{search}%") if search.present?
+		books = books.where('author LIKE ?', "%#{author}%") if author.present?
+		books = books.where("price >= ?", min_price) if min_price.present?
+		books = books.where("price <= ?", max_price) if max_price.present?
+	
+		return books
+
+	end
+
+	scope :available, -> { where(availability: true) }
+	
 end

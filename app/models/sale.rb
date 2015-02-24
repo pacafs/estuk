@@ -4,7 +4,6 @@ class Sale < ActiveRecord::Base
 
 	include AASM
 
-
 	aasm column: 'state' do
 		state :pending, initial: true
 		state :processing
@@ -24,6 +23,7 @@ class Sale < ActiveRecord::Base
 		end
 	end
 
+
 	def charge_card
 		begin
 			save!
@@ -40,6 +40,7 @@ class Sale < ActiveRecord::Base
 			self.fail!
 		end
 	end
+
 
 	private
 

@@ -6,3 +6,4 @@ class ApplicationController < ActionController::Base
 		redirect_to root_path, notice: "You are not authorized to access this area"
 	end
 end
+
